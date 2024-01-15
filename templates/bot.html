@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Control</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #video-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        #video-stream {
+            width: 100%;
+            height: auto;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .control-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="video-container">
+        <!-- Update the source to your Flask server's video feed -->
+        <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream">
+    </div>
+
+    <div class="button-container">
+        <button class="control-button" onclick="move('front')">Front</button>
+        <br>
+        <button class="control-button" onclick="move('left')">Left</button>
+        <button class="control-button" onclick="stop()">Stop</button>
+        <button class="control-button" onclick="move('right')">Right</button>
+        <br>
+        <button class="control-button" onclick="move('back')">Back</button>
+    </div>
+
+    <script>
+        const socket = new WebSocket('ws://10.8.0.3:3000');
+
+        socket.addEventListener('open', (event) => {
+            console.log('WebSocket connection opened:', event);
+        });
+
+        socket.addEventListener('close', (event) => {
+            console.log('WebSocket connection closed:', event);
+        });
+
+        socket.addEventListener('error', (event) => {
+            console.error('WebSocket error:', event);
+        });
+
+        function move(direction) {
+            switch (direction) {
+                case 'front':
+                    send
